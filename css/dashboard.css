@@ -280,7 +280,7 @@ body {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -479,7 +479,12 @@ body {
 
 .list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  /* min() so the track can fall below its ideal 320px on a narrow screen.
+     A bare minmax(320px, 1fr) is a floor, not a preference: once the content
+     area drops under 320px the card keeps its 320px and the whole page scrolls
+     sideways. A 320pt phone — or any phone in iOS's zoomed display mode —
+     lands exactly there. */
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -568,6 +573,10 @@ body {
   line-height: 1.2;
   color: var(--ink);
   margin: 0;
+  /* Guest-typed and unbounded — one long unbroken string would otherwise
+     stretch the card past its grid track. */
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .card-count {
