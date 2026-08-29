@@ -82,7 +82,13 @@
 
     // One named input per expected guest, matching the PHP loop's column widths.
     if (guestsValid && fieldHost) {
-      var columnClass = guests % 2 === 0 ? "col-lg-6" : "col-lg-12";
+      // col-12 is not decoration. Bootstrap gives the form's other fields their
+      // full mobile width through `.row > *`, but these are injected inside
+      // [data-guest-fields] — display:contents, so they lay out as row children
+      // without being row children in the DOM, and that rule skips them. Without
+      // an explicit col-12 they shrink to their content on phones while every
+      // field around them runs edge to edge. col-lg-6 still wins from 992px up.
+      var columnClass = guests % 2 === 0 ? "col-12 col-lg-6" : "col-12";
       var markup = "";
       for (var i = 1; i <= guests; i++) {
         markup +=
