@@ -123,7 +123,7 @@ Venue, date, time and the map pin are static markup — edit them once in
 | Two ceremonies, chosen by `?from=talal/rasha` | One ceremony for every guest, static in the HTML           |
 | `?invite=day/day-night` gated the dinner      | Dinner is on every invitation; `?from=` gates the registry |
 | Full page reload on submit                    | AJAX submit with an inline confirmation, no reload         |
-| `?success=1` query flag                       | Inline message; `thank-you.html` is the no-JS fallback     |
+| `?success=1` query flag                       | Inline message; `thankyou.html` is the no-JS fallback     |
 | WOW.js (disabled on mobile)                   | `js/anim.js` reveal engine, runs everywhere                |
 | Ivory / silver palette                        | Strict monochrome (`css/mono.css`), greyscale photography  |
 

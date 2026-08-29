@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Thank you — Rita &amp; Rabih</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        /* Tokens taken from css/mono.css, NOT css/custom.css. custom.css defines
+           the original warm ivory palette, but mono.css loads after it and maps
+           every one of those tones onto a neutral grey of the same lightness —
+           so the live site is strictly monochrome. Copying the custom.css values
+           here is what made this page read beige against a grey site.
+           Kept inline rather than linking the site's stylesheets: this is one
+           small card and should not pull 570 KB of theme CSS for a sentence. */
+        :root {
+            --ink: #000000;
+            --ink-soft: #3d3d3d;
+            --silver: #9a9a9a;
+            --line: rgba(0, 0, 0, 0.12);
+            --paper-soft: #f5f5f5;
+
+            --text-font: "Raleway", sans-serif;
+            --title-font: "Cormorant Garamond", Georgia, serif;
+            --style-font: "Pinyon Script", "Great Vibes", cursive;
+            --ease: cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 32px 24px;
+            background: #ffffff;
+            font-family: var(--text-font);
+            color: var(--ink-soft);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* The same soft panel the RSVP column sits on, so the page feels like
+           a continuation of the invitation rather than a bare confirmation. */
+        .card {
+            width: 100%;
+            max-width: 620px;
+            text-align: center;
+            /* The same neutral panel the RSVP column sits on (#rsvp
+               .content-column in mono.css), so the two pages match exactly. */
+            background: var(--paper-soft);
+            padding: clamp(44px, 6vw, 72px) clamp(26px, 4vw, 56px);
+            animation: rise 1.3s var(--ease) both;
+        }
+
+        .monogram {
+            font-family: var(--style-font);
+            font-size: clamp(38px, 5vw, 52px);
+            line-height: 1;
+            color: var(--ink);
+            margin: 0 0 22px;
+        }
+
+        .monogram em {
+            font-family: var(--title-font);
+            font-style: italic;
+            font-size: 0.5em;
+            color: var(--silver);
+            padding: 0 0.06em;
+        }
+
+        h1 {
+            font-family: var(--style-font);
+            font-size: clamp(42px, 7vw, 62px);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--ink);
+            margin: 0;
+            animation: rise 1.3s var(--ease) 0.12s both;
+        }
+
+        .flourish {
+            display: block;
+            width: clamp(170px, 62%, 240px);
+            height: auto;
+            margin: clamp(10px, 1.8vh, 20px) auto clamp(24px, 3vw, 32px);
+            color: var(--silver);
+            stroke-dasharray: 260;
+            stroke-dashoffset: 260;
+            animation: draw 3s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+        }
+
+        p.message {
+            font-family: var(--title-font);
+            font-size: clamp(17px, 1.8vw, 19px);
+            line-height: 1.7;
+            color: var(--ink-soft);
+            margin: 0 auto clamp(30px, 4vw, 42px);
+            max-width: 40ch;
+            animation: rise 1.3s var(--ease) 0.25s both;
+        }
+
+        .date {
+            display: block;
+            font-family: var(--title-font);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 12px;
+            color: var(--silver);
+            margin-top: 18px;
+        }
+
+        /* Matches .theme-btn.btn-style-one on the invitation. */
+        a.btn {
+            display: inline-block;
+            font-family: var(--text-font);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #ffffff;
+            background: var(--ink);
+            border: 1px solid var(--ink);
+            padding: 16px 42px;
+            transition:
+                background-color 0.35s ease,
+                color 0.35s ease,
+                transform 0.35s var(--ease);
+            animation: rise 1.3s var(--ease) 0.4s both;
+        }
+
+        a.btn:hover {
+            background: transparent;
+            color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+            .flourish { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <p class="monogram">Rita <em>&amp;</em> Rabih</p>
+
+        <!-- Neutral wording by default. The form redirects here with
+             ?rsvp=accept or ?rsvp=decline and the script below swaps in the
+             right words — so a visitor with JavaScript off, who lands here from
+             the plain form POST, still reads something that makes sense. -->
+        <h1 data-heading>Thank You</h1>
+
+        <svg class="flourish" viewBox="0 0 260 48" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+                <path d="M130 4 C133 11 133 17 130 24 C127 17 127 11 130 4 Z" fill="currentColor" stroke="none" />
+                <path d="M130 24 L130 30" />
+                <path d="M130 30 l5.5 4.2 l-5.5 4.2 l-5.5 -4.2 z" fill="currentColor" stroke="none" />
+                <path d="M136 34.2 C160 32 158 20 174 24 C185 27 182 39 172 37 C164 35.5 167 27 178 29.5 C193 33 202 34 224 33" />
+                <path d="M224 33 C235 33 242 31 249 26.5" />
+                <circle cx="252" cy="25" r="1.8" fill="currentColor" stroke="none" />
+                <path d="M124 34.2 C100 32 102 20 86 24 C75 27 78 39 88 37 C96 35.5 93 27 82 29.5 C67 33 58 34 36 33" />
+                <path d="M36 33 C25 33 18 31 11 26.5" />
+                <circle cx="8" cy="25" r="1.8" fill="currentColor" stroke="none" />
+            </g>
+        </svg>
+
+        <p class="message" data-message>
+            Your reply is with us, and we are so grateful you took the time.
+            <span class="date">Sursock Palace &middot; 17 October 2026</span>
+        </p>
+
+        <a class="btn" href="/">Back to the invitation</a>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            var COPY = {
+                accept: {
+                    heading: "See You There",
+                    message:
+                        "It means the world that you will be with us. We will be counting " +
+                        "down the days until we can celebrate together.",
+                    date: "Sursock Palace &middot; 17 October 2026"
+                },
+                decline: {
+                    heading: "You Will Be Missed",
+                    message:
+                        "Thank you for letting us know. We are sorry you cannot be there — " +
+                        "you will be very much in our thoughts on the day, and we hope to " +
+                        "raise a glass with you before long.",
+                    date: "With love, Rita &amp; Rabih"
+                }
+            };
+
+            var answer = new URLSearchParams(window.location.search).get("rsvp");
+            var copy = COPY[String(answer || "").toLowerCase()];
+            if (!copy) return;
+
+            document.querySelector("[data-heading]").textContent = copy.heading;
+            document.querySelector("[data-message]").innerHTML =
+                copy.message + '<span class="date">' + copy.date + "</span>";
+            document.title = copy.heading + " — Rita & Rabih";
+        })();
+    </script>
+</body>
+
+</html>

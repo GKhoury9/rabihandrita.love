@@ -55,30 +55,6 @@
 
   if (showRegistry) reveal("[data-registry]");
 
-  // Tap-to-copy on the transfer details — an IBAN is not something anyone
-  // should have to retype off a phone screen.
-  Array.prototype.forEach.call(
-    document.querySelectorAll("[data-copy-btn]"),
-    function (button) {
-      button.addEventListener("click", function () {
-        var value = button.parentNode.querySelector("[data-copy]");
-        if (!value || !navigator.clipboard) return;
-        navigator.clipboard.writeText(value.textContent.trim()).then(
-          function () {
-            var label = button.textContent;
-            button.textContent = "Copied";
-            button.classList.add("is-copied");
-            setTimeout(function () {
-              button.textContent = label;
-              button.classList.remove("is-copied");
-            }, 1600);
-          },
-          function () {}
-        );
-      });
-    }
-  );
-
   /* ── RSVP form ────────────────────────────────────────────── */
 
   var form = document.getElementById("contact-form");
@@ -173,21 +149,19 @@
       })
         .then(function (response) {
           if (!response.ok) throw new Error("HTTP " + response.status);
-          form.classList.add("is-sent");
-          say(
-            "Thank you — your RSVP is with us. We can't wait to celebrate with you.",
-            "success"
-          );
-          form.reset();
-          if (display && guestText) display.value = guestText;
+
+          // No inline success message: the reply is confirmed on thankyou.html,
+          // which words it differently for a yes and a no. The answer rides
+          // along so that page knows which to show.
+          var answer = String(data.get("rsvp") || "").toLowerCase();
+          var going = answer.indexOf("accept") === 0 ? "accept" : "decline";
+          window.location.href = "/thankyou.html?rsvp=" + going;
         })
         .catch(function () {
           say(
             "Something went wrong sending your RSVP. Please try again, or reach out to us directly.",
             "error"
           );
-        })
-        .then(function () {
           if (button) {
             button.disabled = false;
             button.innerHTML = buttonLabel;

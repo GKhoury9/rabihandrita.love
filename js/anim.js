@@ -63,7 +63,6 @@
     ".zz-head h2",
     ".contact-form-two .title",
     "#rsvp .content-column .content-box .title",
-    ".registry-title",
   ].join(", ");
 
   Array.prototype.forEach.call(
@@ -103,15 +102,6 @@
   // The detail cards used to carry hand-written data-wow-delay values that fell
   // out of order as cards were added and removed. Index them instead.
   stagger(".zz-boxes .zz-box", 200, 0);
-
-  // The liste de mariage rows were never marked up for WOW at all.
-  Array.prototype.forEach.call(
-    document.querySelectorAll(".registry-row"),
-    function (row, i) {
-      row.setAttribute("data-reveal", "up");
-      row.style.setProperty("--reveal-delay", 160 + i * 120 + "ms");
-    }
-  );
 
   /* ── The reveal observer ──────────────────────────────────── */
 
