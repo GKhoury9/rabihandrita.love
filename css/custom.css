@@ -685,7 +685,7 @@ section > .container {
 
 .zz-icon {
   display: block;
-  width: clamp(30px, 2.8vw, 38px);
+  width: clamp(46px, 4.4vw, 60px);
   height: auto;
   aspect-ratio: 1;
   margin: 0 auto clamp(16px, 1.6vw, 22px);
