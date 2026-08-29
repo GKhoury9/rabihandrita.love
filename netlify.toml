@@ -1,0 +1,64 @@
+# ══════════════════════════════════════════════════════════════
+#  Rita & Rabih — Netlify configuration
+#  Static site: no build step, the repository root is published as-is.
+# ══════════════════════════════════════════════════════════════
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  # No bundler or framework — there is nothing to compile.
+
+[functions]
+  node_bundler = "esbuild"
+
+# The dashboard function also declares this path itself; the rewrite keeps
+# /api/rsvps working on older Netlify runtimes. A 200 rewrite preserves POST.
+[[redirects]]
+  from = "/api/rsvps"
+  to = "/.netlify/functions/rsvps"
+  status = 200
+
+# The site used to run on PHP. The files are gone, but old bookmarks and links
+# still point at them, so send those to the real site rather than a 404.
+[[redirects]]
+  from = "/index.php"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/contact.php"
+  to = "/"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# The dashboard lists guests' names and phone numbers — keep it out of indexes
+# and out of any shared cache.
+[[headers]]
+  for = "/dashboard.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The hero video lives at the root rather than under /images, so it needs the
+# long-cache rule spelled out — without it every visit re-downloads it. Add a
+# matching block for the background music when a track is chosen.
+[[headers]]
+  for = "/vid.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

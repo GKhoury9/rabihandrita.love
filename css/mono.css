@@ -1,0 +1,220 @@
+/* ══════════════════════════════════════════════════════════════
+   Rita & Rabih — strict monochrome layer
+   Loaded after custom.css. Every warm/ivory tone in the original palette is
+   mapped onto a neutral grey of the same lightness, so the composition and
+   contrast of the design are untouched — only the hue is removed.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Accents (flourishes, labels, dividers) — neutral greys */
+  --theme-color1: #b5b5b5;
+  --theme-color2: #ffffff;
+  --theme-color3: #ffffff;
+  --theme-color4: #8a8a8a;
+
+  --theme-color1-rgb: 181, 181, 181;
+  --theme-color2-rgb: 255, 255, 255;
+  --theme-color3-rgb: 255, 255, 255;
+  --theme-color4-rgb: 138, 138, 138;
+
+  --ink: #000000;
+  --ink-soft: #3d3d3d;
+  --silver: #9a9a9a;
+  --silver-soft: #d4d4d4;
+  --line: rgba(0, 0, 0, 0.12);
+  --panel: #ffffff;
+  --panel-soft: #f2f2f2;
+
+  --text-color: #3d3d3d;
+  --headings-color: #000000;
+
+  /* Neutral replacements for the ivory tones used throughout custom.css */
+  --paper: #ffffff;
+  --paper-soft: #f5f5f5;
+  --paper-edge: #ededed;
+  --paper-deep: #e2e2e2;
+  --muted: #8a8a8a;
+}
+
+/* [hidden] must win over the layout rules in custom.css (.zz-map is
+   display:inline-block, which would otherwise defeat the attribute). */
+[hidden] {
+  display: none !important;
+}
+
+/* ── Surfaces ─────────────────────────────────────────────── */
+
+body,
+.hero-section,
+.zigzag-section {
+  background: var(--paper);
+}
+
+.page-wrapper {
+  background-color: var(--paper) !important;
+}
+
+.hero-invite {
+  background: var(--paper-soft);
+}
+
+.hero-photo {
+  background: var(--paper-soft);
+}
+
+.zz-box {
+  background: var(--paper-soft);
+}
+
+.zz-photo {
+  border-color: #000;
+}
+
+#rsvp .content-column {
+  background: var(--paper-soft);
+  border-left: 1px solid var(--line);
+}
+
+.contact-row-form {
+  border-color: var(--paper-edge);
+}
+
+.custom-radio-box-two,
+.contact-form-two .form-group .select2-container--default .select2-selection--single,
+.contact-form-two .form-group select,
+.contact-form-two .form-group textarea,
+.contact-form-two .form-group input:not([type="submit"]) {
+  border-color: var(--paper-edge);
+  background: var(--paper);
+}
+
+.contact-form-two .input-outer input::placeholder,
+.contact-form-two .input-outer textarea::placeholder {
+  color: var(--muted);
+}
+
+/* The original inline accent on the RSVP deadline. */
+.accent-date {
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom: 1px solid var(--silver-soft);
+}
+
+/* ── Photography: strict greyscale, colour on hover ───────── */
+
+.zz-photo img,
+.hero-photo-frame img,
+.hero-photo-frame video {
+  filter: grayscale(1) contrast(1.06);
+  transition:
+    filter 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.zz-photo:hover img,
+.hero-photo-frame:hover img,
+.hero-photo-frame:hover video {
+  filter: grayscale(0) contrast(1);
+}
+
+/* Anyone who prefers reduced motion still gets the greyscale treatment,
+   just without the transition. */
+@media (prefers-reduced-motion: reduce) {
+  .zz-photo img,
+  .hero-photo-frame img,
+  .hero-photo-frame video {
+    transition: none;
+  }
+}
+
+/* ── Countdown ────────────────────────────────────────────── */
+
+/* custom.css pins the digits to #171717 with !important, so the override has
+   to match its specificity and repeat the flag. */
+.zz-count .counter-column .count {
+  color: var(--ink) !important;
+}
+
+.zz-count .counter-column sub {
+  color: var(--silver);
+}
+
+/* ── Form plumbing ────────────────────────────────────────── */
+
+/* The honeypot Netlify uses to catch bots — never shown to a person, but kept
+   in the accessibility tree's tab order out of the way rather than removed. */
+.hp-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The guest-name inputs are injected into this wrapper; display:contents lets
+   the generated bootstrap columns land directly in the surrounding row. */
+[data-guest-fields] {
+  display: contents;
+}
+
+.contact-form-two .form-group input[readonly] {
+  background: var(--paper-soft);
+  color: var(--ink-soft);
+  cursor: default;
+}
+
+.form-feedback {
+  font-family: var(--text-font);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  padding: 14px 18px;
+  border: 1px solid var(--paper-edge);
+  background: var(--paper-soft);
+  color: var(--ink-soft);
+}
+
+.form-feedback.is-success {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #ffffff;
+}
+
+.form-feedback.is-error {
+  border-color: var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.form-feedback.is-pending {
+  color: var(--muted);
+}
+
+/* ── Scroll-to-top button ─────────────────────────────────── */
+
+.scroll-to-top {
+  background: var(--ink);
+  color: #ffffff;
+  border: 1px solid var(--ink);
+}
+
+.scroll-to-top:hover {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+/* ── Remaining hardcoded inks from custom.css ─────────────── */
+
+.zz-map,
+.zz-map:hover,
+.zz-label {
+  color: var(--ink);
+}
+
+.zz-map {
+  border-bottom-color: var(--ink);
+}

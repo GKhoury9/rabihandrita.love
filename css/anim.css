@@ -1,0 +1,470 @@
+/* ══════════════════════════════════════════════════════════════
+   Rita & Rabih — motion layer
+   A single reveal engine (see js/anim.js) replaces WOW.js so the animations
+   also run on phones. On top of it: headings that rise a word at a time, an
+   eyebrow that settles out of wide tracking, photos uncovered by a wiping
+   curtain, a drawn flourish, a drifting zigzag, a slow hero zoom and a
+   reading-progress hairline.
+
+   Everything animates opacity and transform only — the two properties the
+   compositor can handle without repainting — and every piece has an off
+   switch in the prefers-reduced-motion block at the foot of the file.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Motion tokens. cubic-bezier(0.33, 1, 0.68, 1) is an ease-out cubic: it
+   leaves and arrives more gently than the quint it replaces, which started
+   fast and braked hard. Slower and softer everywhere, from one place. */
+:root {
+  --ease-reveal: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-curtain: cubic-bezier(0.5, 0, 0.18, 1);
+}
+
+/* ── Scroll reveal ────────────────────────────────────────── */
+
+[data-reveal] {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity 1.3s var(--ease-reveal),
+    transform 1.7s var(--ease-reveal);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="up"] {
+  transform: translate3d(0, 42px, 0);
+}
+
+[data-reveal="left"] {
+  transform: translate3d(-48px, 0, 0);
+}
+
+[data-reveal="right"] {
+  transform: translate3d(48px, 0, 0);
+}
+
+[data-reveal="fade"] {
+  transform: none;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── Headings rise a word at a time ───────────────────────── */
+
+/* js/anim.js wraps each word of the plain-text headings in .word. No overflow
+   clipping here on purpose: Pinyon Script has deep descenders and a mask would
+   slice them. */
+[data-words] .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.42em, 0);
+  transition:
+    opacity 1.05s var(--ease-reveal),
+    transform 1.35s var(--ease-reveal);
+  transition-delay: calc(var(--word-index, 0) * 130ms + 180ms);
+}
+
+.is-revealed [data-words] .word {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── The section eyebrow settles out of wide tracking ─────── */
+
+.is-revealed .sub-title {
+  animation: eyebrow-settle 1.6s var(--ease-reveal) both;
+}
+
+@keyframes eyebrow-settle {
+  from {
+    opacity: 0;
+    letter-spacing: 0.6em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.28em;
+  }
+}
+
+/* ── Photos uncover from the bottom edge ──────────────────── */
+
+/* A curtain in the section's own white, wiped away upward. Scaling a solid
+   colour is a compositor-only operation — no repaint of the photo beneath. */
+.zz-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform-origin: 50% 0%;
+  transform: scaleY(1);
+  transition: transform 1.5s var(--ease-curtain);
+  transition-delay: var(--reveal-delay, 0ms);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.zz-photo.is-revealed::after {
+  transform: scaleY(0);
+}
+
+/* ── The flourish draws itself in ─────────────────────────── */
+
+/* stroke-dasharray is an inherited SVG property, so setting it on the <svg>
+   reaches the paths inside the referenced <symbol>. The solid shapes in the
+   ornament use stroke="none" and are left untouched. */
+.flourish-divider .flourish {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+}
+
+.flourish-divider.is-drawn .flourish {
+  animation: flourish-draw 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes flourish-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+
+/* A very slow push-in, so a still photo is never quite static. The video
+   brings its own motion and is deliberately left out of this. */
+.hero-photo-frame img {
+  animation: hero-drift 34s ease-in-out infinite alternate;
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+/* The names settle in behind the flourish. */
+body.revealed .couple-names,
+body.no-envelope .couple-names {
+  animation: name-settle 2.1s var(--ease-reveal) both;
+}
+
+@keyframes name-settle {
+  from {
+    opacity: 0;
+    letter-spacing: 0.14em;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: normal;
+    transform: translateY(0);
+  }
+}
+
+.couple-names .amp {
+  display: inline-block;
+  animation: amp-breathe 7s ease-in-out infinite;
+}
+
+@keyframes amp-breathe {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+}
+
+.invite-intro {
+  opacity: 0;
+}
+
+body.revealed .invite-intro,
+body.no-envelope .invite-intro {
+  animation: soft-rise 1.6s var(--ease-reveal) 0.3s both;
+}
+
+@keyframes soft-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Zigzag photos: gentle parallax drift ─────────────────── */
+
+/* The drift rides on the independent `translate` property rather than
+   `transform`, so it composes with the reveal transform instead of replacing
+   it — the photos would otherwise fade in without ever sliding up. */
+.zz-photo {
+  translate: 0 var(--drift, 0px);
+  transition: box-shadow 0.5s ease;
+}
+
+.zz-photo:hover {
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Detail cards ─────────────────────────────────────────── */
+
+.zz-box {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.7s var(--ease-reveal),
+    background-color 0.6s ease;
+}
+
+.zz-box::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--ink);
+  transform: translateX(-50%);
+  transition: width 0.9s var(--ease-reveal);
+}
+
+.zz-box:hover {
+  transform: translateY(-6px);
+}
+
+.zz-box:hover::after {
+  width: 64%;
+}
+
+/* ── Card icons draw themselves on ────────────────────────── */
+
+/* Same inheritance trick as the flourish: stroke-dasharray set on the <svg>
+   reaches the shapes inside the referenced <symbol>. 150 comfortably exceeds
+   the longest path in any of the three, so each finishes within the run. */
+.zz-icon {
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+}
+
+.zz-box.is-revealed .zz-icon {
+  animation: flourish-draw 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+}
+
+/* ── Countdown ────────────────────────────────────────────── */
+
+/* The animation belongs on .time-countdown, which survives, and NOT on the
+   .counter-column children. The plugin rewrites this element's innerHTML every
+   100ms, so anything animated per-column is rebuilt mid-flight and restarts
+   forever — with `both` fill that pins the digits at their opacity:0 first
+   frame and the countdown reads as broken. It only looked fine while the
+   target date was in the past, because a finished countdown stops ticking and
+   lets the animation run to completion. */
+/* Gated on [data-reveal], which only exists once js/anim.js has run. If the
+   engine never starts, the digits are simply visible rather than hidden by a
+   fade that nothing will ever trigger. */
+.zz-count[data-reveal] .time-countdown {
+  opacity: 0;
+}
+
+.zz-count.is-revealed .time-countdown {
+  animation: soft-rise 1s var(--ease-reveal) 0.15s both;
+}
+
+/* ── Buttons: a light sweeps across on hover ──────────────── */
+
+.theme-btn.btn-style-one {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.theme-btn.btn-style-one::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -140%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.theme-btn.btn-style-one:hover::after {
+  animation: btn-sweep 0.9s ease;
+}
+
+@keyframes btn-sweep {
+  to {
+    left: 160%;
+  }
+}
+
+.theme-btn.btn-style-one[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ── Form fields ──────────────────────────────────────────── */
+
+.contact-form-two .input-outer {
+  position: relative;
+}
+
+/* A hairline that grows from the centre as the field takes focus. */
+.contact-form-two .input-outer::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--ink);
+  transform: translateX(-50%);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.contact-form-two .input-outer:focus-within::after {
+  width: 100%;
+}
+
+.custom-radio-box-two {
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.custom-radio-box-two:hover {
+  transform: translateY(-2px);
+}
+
+.custom-radio-box-two .checkmark {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.custom-radio-box-two input:checked ~ .checkmark {
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* Guest inputs cascade in as the invitation link is read. */
+.guest-field {
+  animation: guest-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--guest-index, 1) * 90ms);
+}
+
+@keyframes guest-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-feedback {
+  animation: soft-rise 0.5s ease both;
+}
+
+/* ── Reading progress hairline ────────────────────────────── */
+
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: var(--ink);
+  z-index: 1500;
+  pointer-events: none;
+}
+
+body:not(.revealed) .read-progress {
+  opacity: 0;
+}
+
+/* ── Envelope: the seal invites a press ───────────────────── */
+
+.wax-seal {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wax-seal:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.wax-seal:active {
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
+/* ── Respect the visitor's motion preference ──────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .flourish-divider .flourish,
+  .zz-icon {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .hero-photo-frame img,
+  .wax-logo,
+  .is-revealed .sub-title,
+  .couple-names,
+  .couple-names .amp,
+  .invite-intro,
+  .zz-count .time-countdown,
+  .guest-field,
+  .form-feedback {
+    animation: none !important;
+    opacity: 1;
+  }
+
+  .zz-photo {
+    translate: none !important;
+  }
+
+  [data-words] .word {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .zz-photo::after {
+    transform: scaleY(0) !important;
+    transition: none !important;
+  }
+
+  .theme-btn.btn-style-one:hover::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Thank you — Rita &amp; Rabih</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Pinyon+Script&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --ink: #000;
+            --muted: #8a8a8a;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 32px;
+            background: #fff;
+            font-family: "Raleway", system-ui, sans-serif;
+            color: #3d3d3d;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .card {
+            max-width: 540px;
+            text-align: center;
+            animation: rise 1s var(--ease) both;
+        }
+
+        .monogram {
+            font-family: "Pinyon Script", cursive;
+            font-size: 64px;
+            line-height: 1;
+            color: var(--ink);
+            margin: 0 0 18px;
+        }
+
+        .monogram em { font-style: normal; color: var(--muted); }
+
+        h1 {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: clamp(30px, 6vw, 46px);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 20px;
+            animation: rise 1s var(--ease) 0.15s both;
+        }
+
+        .flourish {
+            display: block;
+            width: 220px;
+            max-width: 80%;
+            margin: 0 auto 26px;
+            color: var(--muted);
+            stroke-dasharray: 260;
+            stroke-dashoffset: 260;
+            animation: draw 2.2s var(--ease) 0.3s forwards;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.9;
+            margin: 0 0 32px;
+            animation: rise 1s var(--ease) 0.3s both;
+        }
+
+        a.btn {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #fff;
+            background: var(--ink);
+            border: 1px solid var(--ink);
+            padding: 15px 40px;
+            transition: background-color .35s ease, color .35s ease, transform .35s var(--ease);
+            animation: rise 1s var(--ease) 0.45s both;
+        }
+
+        a.btn:hover {
+            background: #fff;
+            color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .flourish { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <p class="monogram">R<em>&amp;</em>R</p>
+        <h1>Thank you</h1>
+
+        <svg class="flourish" viewBox="0 0 260 48" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+                <path d="M130 4 C133 11 133 17 130 24 C127 17 127 11 130 4 Z" fill="currentColor" stroke="none" />
+                <path d="M130 24 L130 30" />
+                <path d="M130 30 l5.5 4.2 l-5.5 4.2 l-5.5 -4.2 z" fill="currentColor" stroke="none" />
+                <path d="M136 34.2 C160 32 158 20 174 24 C185 27 182 39 172 37 C164 35.5 167 27 178 29.5 C193 33 202 34 224 33" />
+                <path d="M224 33 C235 33 242 31 249 26.5" />
+                <circle cx="252" cy="25" r="1.8" fill="currentColor" stroke="none" />
+                <path d="M124 34.2 C100 32 102 20 86 24 C75 27 78 39 88 37 C96 35.5 93 27 82 29.5 C67 33 58 34 36 33" />
+                <path d="M36 33 C25 33 18 31 11 26.5" />
+                <circle cx="8" cy="25" r="1.8" fill="currentColor" stroke="none" />
+            </g>
+        </svg>
+
+        <p>
+            Your RSVP is with us.<br />
+            We can&rsquo;t wait to celebrate with you on October 17, 2026.
+        </p>
+
+        <a class="btn" href="/">Back to the invitation</a>
+    </div>
+</body>
+
+</html>

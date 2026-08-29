@@ -1,0 +1,13 @@
+# OS and editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# Netlify CLI local state
+.netlify/
+
+# Node, should any tooling be added later
+node_modules/

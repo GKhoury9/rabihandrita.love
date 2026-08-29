@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>RSVP Dashboard — Rita &amp; Rabih</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="css/dashboard.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ── Password gate ─────────────────────────────────────── -->
+    <div class="gate" id="gate">
+        <form class="gate-card" id="gate-form" autocomplete="off">
+            <p class="gate-monogram">R<em>&amp;</em>R</p>
+            <h1 class="gate-title">RSVP Dashboard</h1>
+            <p class="gate-sub">Enter the password to view the replies.</p>
+
+            <label class="field">
+                <span class="field-label">Password</span>
+                <input type="password" id="gate-password" name="password" autocomplete="current-password" required />
+            </label>
+
+            <button type="submit" class="btn" id="gate-submit">Unlock</button>
+            <p class="gate-error" id="gate-error" role="alert" hidden></p>
+        </form>
+    </div>
+
+
+    <!-- ── Dashboard ─────────────────────────────────────────── -->
+    <main class="app" id="app" hidden>
+
+        <header class="masthead">
+            <div>
+                <p class="eyebrow">Rita &amp; Rabih &middot; August 08 2026</p>
+                <h1 class="masthead-title">Replies</h1>
+            </div>
+            <div class="masthead-actions">
+                <button type="button" class="btn btn-quiet" id="refresh">Refresh</button>
+                <button type="button" class="btn btn-quiet" id="export">Export CSV</button>
+                <button type="button" class="btn btn-quiet" id="lock">Lock</button>
+            </div>
+        </header>
+
+        <section class="stats" aria-label="Summary">
+            <article class="stat">
+                <span class="stat-label">Replies</span>
+                <strong class="stat-value" data-stat="submissions">0</strong>
+            </article>
+            <article class="stat">
+                <span class="stat-label">Attending</span>
+                <strong class="stat-value" data-stat="attending">0</strong>
+            </article>
+            <article class="stat">
+                <span class="stat-label">Declined</span>
+                <strong class="stat-value" data-stat="declined">0</strong>
+            </article>
+            <article class="stat stat-wide">
+                <span class="stat-label">Guests expected</span>
+                <strong class="stat-value" data-stat="guests">0</strong>
+            </article>
+        </section>
+
+        <section class="controls" aria-label="Filters">
+            <div class="search">
+                <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.6" />
+                    <path d="M16.5 16.5 L21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+                <input type="search" id="search" placeholder="Search name, phone, guest or message…" aria-label="Search replies" />
+                <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>&times;</button>
+            </div>
+
+            <label class="select">
+                <span class="select-label">Guests</span>
+                <select id="filter-guests">
+                    <option value="all">Any number</option>
+                    <option value="1">1 guest</option>
+                    <option value="2">2 guests</option>
+                    <option value="3">3 guests</option>
+                    <option value="4">4 guests</option>
+                    <option value="5+">5 or more</option>
+                </select>
+            </label>
+
+            <label class="select">
+                <span class="select-label">Reply</span>
+                <select id="filter-status">
+                    <option value="all">All replies</option>
+                    <option value="attending">Attending</option>
+                    <option value="declined">Declined</option>
+                </select>
+            </label>
+
+            <label class="select">
+                <span class="select-label">Invited by</span>
+                <select id="filter-invite">
+                    <option value="all">Both sides</option>
+                    <option value="rita">Rita's side</option>
+                    <option value="rabih">Rabih's side</option>
+                    <option value="">Unspecified</option>
+                </select>
+            </label>
+
+            <label class="select">
+                <span class="select-label">Sort</span>
+                <select id="sort">
+                    <option value="name-asc">Name A → Z</option>
+                    <option value="name-desc">Name Z → A</option>
+                    <option value="guests-desc">Guests, most first</option>
+                    <option value="guests-asc">Guests, fewest first</option>
+                    <option value="date-desc">Newest first</option>
+                    <option value="date-asc">Oldest first</option>
+                </select>
+            </label>
+
+            <button type="button" class="btn btn-quiet btn-reset" id="reset">Reset</button>
+        </section>
+
+        <p class="result-line" id="result-line" role="status" aria-live="polite"></p>
+
+        <section class="list" id="list" aria-label="Replies"></section>
+
+        <p class="empty" id="empty" hidden>No replies match these filters.</p>
+        <p class="error" id="error" role="alert" hidden></p>
+
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
