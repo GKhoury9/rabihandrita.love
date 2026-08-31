@@ -1,4 +1,4 @@
-# Rita &amp; Rabih — Netlify setup
+# Rabih &amp; Rita — Netlify setup
 
 The site is fully static. There is no PHP, no build step, and no server to
 maintain: Netlify serves the files, **Netlify Forms** collects the RSVPs, and a
@@ -71,7 +71,7 @@ held only in `sessionStorage` — closing the tab locks it again.
   with matches highlighted. Press `/` to jump to it, `Esc` to clear.
 - **Filter by number of guests** — 1, 2, 3, 4, or 5-and-over.
 - **Filter by reply** — attending or declined.
-- **Filter by which side invited them** — Rita's side or Rabih's side.
+- **Filter by which side invited them** — Rabih's side or Rita's side.
 - **Sort** — alphabetical A→Z and Z→A, guests most/fewest first, newest/oldest.
 - **Summary tiles** — replies, attending, declined, and total guests expected.
 - **Export CSV** — exports exactly what's on screen, filters and all, UTF-8 with

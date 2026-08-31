@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   Rita & Rabih — invitation logic
+   Rabih & Rita — invitation logic
    Port of the original index.php server-side rendering to the browser,
    so the site can be deployed as static files on Netlify.
 

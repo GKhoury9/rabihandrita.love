@@ -348,7 +348,7 @@
     var url = URL.createObjectURL(blob);
     var link = document.createElement("a");
     link.href = url;
-    link.download = "rita-rabih-rsvps.csv";
+    link.download = "rabih-rita-rsvps.csv";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   Rita & Rabih — motion engine
+   Rabih & Rita — motion engine
 
    Replaces WOW.js with an IntersectionObserver-based reveal. WOW was
    configured with mobile:false, so on phones the whole site arrived with no
