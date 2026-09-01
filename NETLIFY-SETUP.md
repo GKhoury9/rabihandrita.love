@@ -101,9 +101,9 @@ which is what feeds the side tag and the *Invited by* filter on the dashboard.
 
 ### Changing the liste de mariage details
 
-The Whish number, account name, bank and IBAN are placeholders — edit them in
-[`index.html`](index.html) in the `#registry` section. The Whish number and the
-IBAN each have a tap-to-copy button; nothing else needs changing to enable it.
+The block holds the bank name and the account number — edit them in
+[`index.html`](index.html), in the `<div class="registry">` markup inside the
+*With Love* card.
 
 ### Changing the ceremony details
 

@@ -218,18 +218,18 @@
         </div>
       </section>
 
-      <section id="celebration" class="zigzag-section">
+      <section id="celebration" class="zigzag-section" style="">
         <div class="container-fluid">
-          <div class="sec-title text-center zz-head wow fadeInUp">
+          <!-- <div class="sec-title text-center zz-head wow fadeInUp">
             <span class="sub-title">Save the Date</span>
             <h2>Our Celebration</h2>
             <span class="flourish-divider"
               ><svg class="flourish" viewBox="0 0 260 48" aria-hidden="true">
                 <use href="#flourish-sym" /></svg
             ></span>
-          </div>
+          </div> -->
 
-          <div class="zigzag-track">
+          <!-- <div class="zigzag-track" >
             <figure class="zz-photo up wow fadeInUp">
               <img src="./images/1.webp" alt="Rabih &amp; Rita" />
             </figure>
@@ -242,9 +242,9 @@
             <figure class="zz-photo down wow fadeInUp" data-wow-delay="300ms">
               <img src="./images/5.webp" alt="Rabih &amp; Rita" />
             </figure>
-          </div>
+          </div> -->
 
-          <div class="zz-boxes">
+          <div class="zz-boxes mt-0">
             <div class="zz-box wow fadeInUp">
               <svg class="zz-icon" aria-hidden="true">
                 <use href="#icon-rings" />
@@ -269,6 +269,19 @@
                 >View on map</a
               >
             </div>
+
+            <!-- Phones only: a full-width picture of the venue directly under
+                 the Ceremony card. In the three-across desktop row a photo in
+                 the middle would break the rhythm, so it is hidden there. -->
+            <figure class="zz-place wow fadeInUp" data-wow-delay="100ms">
+              <img
+                src="./images/place.webp"
+                alt="Sursock Palace, Achrafieh"
+                loading="lazy"
+                width="1000"
+                height="1499"
+              />
+            </figure>
 
             <div class="zz-box wow fadeInUp">
               <svg class="zz-icon" aria-hidden="true">
@@ -460,7 +473,7 @@
                   <div class="text">
                     <p style="margin: 0 0 20px">
                       Kindly let us know if you can make it before
-                      <span class="accent-date">September 20, 2026.</span>
+                      <span class="accent-date">September 27, 2026.</span>
                     </p>
                     <p style="margin: 0">
                       Your presence is the greatest gift of all.
@@ -475,8 +488,10 @@
                       our new home together would mean a great deal to us.
                     </p>
 
-                    <span class="registry-label zz-label">Whish Money</span>
-                    <p class="registry-number">+961 00 000 000</p>
+                    <span class="registry-label zz-label"
+                      >Banque Libano-Française S.A.L</span
+                    >
+                    <p class="registry-number">017921594001840</p>
                   </div>
                 </div>
               </div>
@@ -509,14 +524,12 @@
       });
     </script>
 
-    <!-- Background music. No track chosen yet, so the element is out entirely
-         rather than pointing at a file that isn't there. To bring it back: drop
-         the file in the project root and uncomment this block — js/invite.js
-         picks it up by id on its own, and starts it on the envelope tap.
-    <audio id="background-music" loop preload="auto" style="display: none;">
-        <source src="./background-music.mp3" type="audio/mpeg">
+    <!-- Background music. js/invite.js starts it from openEnvelope(), so it
+         begins on the press of the wax seal and never before — which is also
+         the gesture browsers require before they will allow any sound. -->
+    <audio id="background-music" loop preload="auto" style="display: none">
+      <source src="./music.mp3" type="audio/mpeg" />
     </audio>
-    -->
 
     <script src="js/invite.js"></script>
     <script src="js/anim.js"></script>

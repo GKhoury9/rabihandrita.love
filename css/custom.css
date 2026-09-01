@@ -651,7 +651,9 @@ section > .container {
 .zz-box {
   flex: 1 1 0;
   text-align: center;
-  background: #f6f3ef;
+  border: 2px solid var(--paper-edge);
+  background: white !important;
+  /* background: #f6f3ef; */
   /* border: 1px solid var(--line); */
   /* border-radius: 14px; */
   /* box-shadow: 0 16px 42px rgba(40, 34, 26, 0.08); */
@@ -660,6 +662,12 @@ section > .container {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Venue photo under the Ceremony card. Phones only — in the three-across
+   desktop row a picture in the middle would break the rhythm. */
+.zz-place {
+  display: none;
 }
 
 /* Flush outer edges: first card square on the left, last card square on the right */
@@ -880,6 +888,32 @@ section > .container {
      the card below. Vertically the cards size to content. */
   .zz-box {
     flex: 0 0 auto;
+  }
+
+  /* Matted the same way as the zigzag photos: a hairline black frame with the
+     card's own paper showing as a border around the image. 4/5 keeps a tall
+     portrait from running past the fold on a phone. */
+  .zz-place {
+    display: block;
+    flex: 0 0 auto;
+    margin: 0;
+    border: 2px solid var(--paper-edge);
+    background: white;
+    /* background: var(--paper-soft); */
+    overflow: hidden;
+  }
+
+  .contact-section-four.pull-up {
+    padding-bottom: 0;
+  }
+
+  .zz-place img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    padding: 10px;
   }
 }
 
@@ -1311,7 +1345,7 @@ section > .container {
   }
 
   .contact-section-four .content-column .rsvp-right-column .content-box {
-    padding: 40px 24px 20px;
+    padding: 40px 24px;
   }
 
   #rsvp .form-column .inner-column {

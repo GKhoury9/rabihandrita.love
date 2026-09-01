@@ -180,22 +180,16 @@
 
   var audio = document.getElementById("background-music");
 
+  // Called from openEnvelope() and nowhere else: the music starts when the
+  // visitor presses the wax seal, and only then. No attempt on load and no
+  // mousemove or touch fallback — a tap the visitor chose to make is both what
+  // browsers require to allow sound and what the opening is meant to feel like.
   function playMusic() {
-    if (!audio) return;
+    if (!audio || !audio.paused) return;
     audio.volume = 0.2;
     var attempt = audio.play();
-    // Browsers reject autoplay until the visitor interacts; the rejection is
-    // expected and harmless, the envelope tap below succeeds.
+    // A rejection here is harmless — it just means no music.
     if (attempt && typeof attempt.catch === "function") attempt.catch(function () {});
-  }
-
-  // Nothing is bound while the <audio> element is commented out of index.html,
-  // so the page isn't running a mousemove handler that can only return early.
-  // Restoring the element restores the behaviour, with no change needed here.
-  if (audio) {
-    playMusic();
-    document.body.addEventListener("mousemove", playMusic);
-    document.body.addEventListener("touchstart", playMusic, { passive: true });
   }
 
   /* ── Envelope opening screen ──────────────────────────────── */
