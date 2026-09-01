@@ -9,8 +9,6 @@
     <link href="css/custom.css" rel="stylesheet" />
     <link href="css/mono.css" rel="stylesheet" />
     <link href="css/anim.css" rel="stylesheet" />
-    <!-- A 64px cut of the seal. The full logo is 165KB, and a tab icon that
-         heavy competes with the page it belongs to. -->
     <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
     <link rel="icon" href="images/favicon.png" type="image/png" />
 
@@ -33,8 +31,6 @@
   </head>
 
   <body>
-    <!-- Ornamental flourish extracted from the printed invitation. Defined once,
-         referenced with <use> wherever a divider is needed. -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
       style="display: none"
@@ -72,9 +68,6 @@
         </g>
       </symbol>
 
-      <!-- Detail-card icons. Same drawing language as the flourish: hairline
-             strokes, no fills, currentColor — so they inherit the card's colour
-             and can be drawn on with stroke-dasharray. -->
       <symbol id="icon-rings" viewBox="0 0 32 32">
         <g
           fill="none"
@@ -125,11 +118,6 @@
       </symbol>
     </svg>
 
-    <!-- Netlify Forms detection stub.
-         Netlify scrapes the deployed HTML at build time to learn which forms and
-         fields exist. The live RSVP form builds its guest inputs in JS, so every
-         possible field is declared once here, hidden, for the scraper. Nothing in
-         this block is ever shown to or submitted by a visitor. -->
     <form name="rsvp" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="rsvp" />
       <input type="text" name="bot-field" />
@@ -201,9 +189,6 @@
 
           <div class="hero-photo wow fadeInRight">
             <div class="hero-photo-frame">
-              <!-- muted + playsinline are what let it autoplay at all, and
-                             the encode carries no audio track anyway. The poster holds
-                             the frame while the first bytes arrive. -->
               <video
                 src="./vid.mp4"
                 poster="./images/hero-poster.jpg"
@@ -215,6 +200,20 @@
                 disablepictureinpicture
                 aria-label="Rabih &amp; Rita"
               ></video>
+            </div>
+
+            <div class="hero-scroll" aria-hidden="true">
+              <span class="hero-scroll-text">Scroll down</span>
+              <svg class="hero-scroll-arrow" viewBox="0 0 24 30">
+                <path
+                  d="M12 2 L12 24 M4 16.5 L12 24.5 L20 16.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -258,11 +257,6 @@
                 PM
               </p>
 
-              <!-- ftid is Google's exact place id for Sursock Palace
-                             (33.8935727, 35.5174805), resolved from the maps.app.goo.gl
-                             short link. Pinned this way the marker can't drift the way a
-                             name search can, and it doesn't depend on Google's URL
-                             shortener staying alive. -->
               <a
                 class="zz-map"
                 href="https://www.google.com/maps?q=Sursock+Palace,+Beirut&amp;ftid=0x151f16f99c3148d9:0x5ca1364749212756"
@@ -272,9 +266,6 @@
               >
             </div>
 
-            <!-- Phones only: a full-width picture of the venue directly under
-                 the Ceremony card. In the three-across desktop row a photo in
-                 the middle would break the rhythm, so it is hidden there. -->
             <figure class="zz-place wow fadeInUp" data-wow-delay="100ms">
               <img
                 src="./images/place.webp"
@@ -417,8 +408,6 @@
                           </div>
                         </div>
 
-                        <!-- Guest name inputs are injected here when the invitation
-                                                 link carries a ?guests= count. -->
                         <div data-guest-fields></div>
 
                         <div class="form-group col-lg-12">
@@ -482,8 +471,6 @@
                     </p>
                   </div>
 
-                  <!-- Liste de mariage. Hidden in the markup; invite.js unhides
-                                     it only for links carrying ?from=rita. -->
                   <div class="registry" data-registry hidden>
                     <p class="registry-note">
                       For those who have kindly asked — a contribution towards
@@ -503,11 +490,6 @@
       </section>
     </div>
 
-    <!-- The theme shipped with carousels, lightboxes, a filter grid and a select
-         widget, none of which this invitation uses; script.js guards every one
-         of those calls behind a selector that never matches, so the plugins are
-         gone. wow.js stays because script.js does construct it — anim.js only
-         strips the .wow classes afterwards, not before. -->
     <script src="js/jquery.js"></script>
     <script src="js/wow.js"></script>
     <script src="js/jquery.countdown.js"></script>
@@ -526,11 +508,6 @@
       });
     </script>
 
-    <!-- Background music. js/invite.js starts it from openEnvelope(), so it
-         begins on the press of the wax seal and never before — which is also
-         the gesture browsers require before they will allow any sound.
-         preload="none" keeps its 2MB off the wire while the page itself is
-         still arriving; invite.js buffers it once everything else is done. -->
     <audio id="background-music" loop preload="none" style="display: none">
       <source src="./music.mp3" type="audio/mpeg" />
     </audio>

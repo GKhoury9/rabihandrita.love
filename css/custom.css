@@ -4,7 +4,6 @@
    ══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Accents / silver (flourishes, labels, dividers) */
   --theme-color1: #b9bbbd;
   --theme-color2: #f5f2ec;
   --theme-color3: #ffffff;
@@ -120,7 +119,6 @@ body {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  /* Vignette pooling light behind the seal, so the eye lands there first. */
   background: radial-gradient(
     ellipse 72% 58% at 50% 44%,
     #f7f7f7 0%,
@@ -138,7 +136,6 @@ body {
   visibility: hidden;
 }
 
-/* Full-screen envelope */
 .envelope {
   position: absolute;
   inset: 0;
@@ -152,8 +149,6 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  /* Pearl stock with a faint fibre grain — the noise is a static raster,
-     so it costs nothing per frame. */
   background-color: #f2f2f2;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
@@ -163,8 +158,6 @@ body {
     cover;
   transform-style: preserve-3d;
   transform-origin: 50% 44%;
-  /* Its own compositor layer: the closing scale-up is then a GPU transform on
-     an already-rasterised surface rather than a full-screen repaint. */
   will-change: transform, opacity;
   backface-visibility: hidden;
   transition:
@@ -172,7 +165,6 @@ body {
     opacity 0.45s ease;
 }
 
-/* Bottom pocket triangle (envelope face) */
 .envelope-body::before {
   content: "";
   position: absolute;
@@ -187,7 +179,6 @@ body {
   z-index: 2;
 }
 
-/* Left & right pocket shading */
 .envelope-body::after {
   content: "";
   position: absolute;
@@ -199,7 +190,6 @@ body {
   pointer-events: none;
 }
 
-/* The closing flap — big triangle from the top */
 .envelope-flap {
   position: absolute;
   top: 0;
@@ -208,8 +198,6 @@ body {
   height: 56%;
   background: linear-gradient(165deg, #fdfdfd 0%, #efefef 46%, #dcdcdc 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
-  /* clip-path clips box-shadow too, so the flap's depth comes from a
-     drop-shadow filter, which follows the clipped triangle. */
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16));
   transform-origin: top center;
   will-change: transform;
@@ -219,7 +207,6 @@ body {
 }
 
 .envelope-flap::after {
-  /* Inner bevel line, inset so a sliver of the flap reads as a folded edge. */
   content: "";
   position: absolute;
   inset: 10px 10px auto 10px;
@@ -232,7 +219,6 @@ body {
   );
 }
 
-/* Wax seal = the button — mottled, hand-pressed sealing wax */
 .wax-seal {
   position: absolute;
   top: 50%;
@@ -245,9 +231,6 @@ body {
   cursor: pointer;
   z-index: 7;
   background: none;
-  /* background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-        radial-gradient(circle at 40% 32%, #2b2b2b 0%, #171717 50%, #0a0a0a 100%); */
   box-shadow: none;
 }
 
@@ -256,22 +239,8 @@ body {
   height: 100%;
   object-fit: contain;
   display: block;
-  /* The glow pulses on `filter` rather than `box-shadow` so it follows the
-     wax's irregular outline instead of ringing a rectangle around it, and
-     leaves `transform` free for the hover scale and the break animation. */
   animation: sealPulse 2.4s ease-in-out infinite;
 }
-
-/* .wax-seal::before {
-    content: '';
-    position: absolute;
-    inset: 10%;
-    border-radius: inherit;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow:
-        inset 0 1px 3px rgba(0, 0, 0, 0.55),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.06);
-} */
 
 .wax-seal-inner {
   position: absolute;
@@ -292,8 +261,6 @@ body {
   }
 }
 
-/* Opening animation — the wax cracks, the flap slowly lifts,
-   then the whole envelope drifts toward the viewer and dissolves. */
 .envelope.opening .envelope-flap {
   transform: rotateX(180deg);
   z-index: 1;
@@ -311,7 +278,6 @@ body {
   }
 
   22% {
-    /* the wax gives, cracks, pops slightly */
     transform: translate(-50%, -50%) scale(1.07) rotate(-1.5deg);
     opacity: 1;
   }
@@ -328,7 +294,6 @@ body {
   transition-delay: 0.78s;
 }
 
-/* Cinematic reveal of the site behind the envelope */
 body.revealed .page-wrapper {
   animation: pageFade 0.45s ease both;
 }
@@ -347,9 +312,6 @@ body.revealed .hero-section {
   animation: heroReveal 0.7s cubic-bezier(0.16, 0.84, 0.28, 1) both;
 }
 
-/* Opacity and transform only. The previous version blurred a full-viewport
-   section, which the compositor cannot hand to the GPU as-is — it re-rendered
-   the whole hero every frame, on top of the envelope still dissolving. */
 @keyframes heroReveal {
   0% {
     opacity: 0;
@@ -411,16 +373,6 @@ body.revealed .hero-invite > .invite-card {
   padding: clamp(22px, 3.4vh, 46px) clamp(20px, 3vw, 40px);
   position: relative;
 }
-
-/* .invite-card::before,
-.invite-card::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--silver-soft) 20%, var(--silver-soft) 80%, transparent);
-} */
 
 .invite-card::before {
   top: 0;
@@ -493,13 +445,6 @@ body.revealed .hero-invite > .invite-card {
   margin: clamp(12px, 2.2vh, 22px) 0 clamp(10px, 1.8vh, 18px);
 }
 
-/* .invite-note {
-    font-family: var(--title-font);
-    font-style: italic;
-    font-size: clamp(17px, 1.8vw, 21px);
-    letter-spacing: 0.03em;
-    color: var(--silver);
-} */
 .invite-note {
   font-family: var(--title-font);
   text-transform: uppercase;
@@ -527,6 +472,10 @@ body.revealed .hero-invite > .invite-card {
   object-fit: cover;
   object-position: center 20%;
   display: block;
+}
+
+.hero-scroll {
+  display: none;
 }
 
 .hero-photo::after {
@@ -664,13 +613,10 @@ section > .container {
   justify-content: center;
 }
 
-/* Venue photo under the Ceremony card. Phones only — in the three-across
-   desktop row a picture in the middle would break the rhythm. */
 .zz-place {
   display: none;
 }
 
-/* Flush outer edges: first card square on the left, last card square on the right */
 @media (min-width: 768px) {
   .zz-box:first-child {
     border-top-left-radius: 0;
@@ -817,7 +763,6 @@ section > .container {
   opacity: 1;
 }
 
-/* Zigzag responsive */
 @media (max-width: 991px) {
   .zigzag-track {
     height: auto;
@@ -830,18 +775,11 @@ section > .container {
   }
 
   .zz-photo {
-    /* relative, not static — the reveal curtain is absolutely positioned
-       against it and would otherwise escape to the nearest positioned parent. */
     position: relative;
     width: auto;
     min-width: 0;
   }
 
-  /* `left` still offsets a relatively-positioned box, so the desktop zigzag's
-     left: 2%/28.5%/55%/81.5% would shove each photo out of its grid cell and
-     off the right edge. It has to be cleared at matching specificity: the
-     source rules are `.zz-photo:nth-child(n)` (0,2,0) and a media query adds
-     none, so a plain `.zz-photo` reset would silently lose. */
   .zigzag-track .zz-photo {
     left: auto;
     top: auto;
@@ -880,19 +818,10 @@ section > .container {
     max-width: 380px;
   }
 
-  /* `flex: 1 1 0` sizes on the main axis, so stacked it was pinning every card
-     to a height of zero-plus-a-share instead of to its content. Normally a
-     flex item's automatic minimum size would stop that, but the cards carry
-     `overflow: hidden` for the underline sweep, and that resolves
-     `min-height: auto` to 0 — so they collapsed and their text spilled across
-     the card below. Vertically the cards size to content. */
   .zz-box {
     flex: 0 0 auto;
   }
 
-  /* Matted the same way as the zigzag photos: a hairline black frame with the
-     card's own paper showing as a border around the image. 4/5 keeps a tall
-     portrait from running past the fold on a phone. */
   .zz-place {
     display: block;
     flex: 0 0 auto;
@@ -952,8 +881,6 @@ section > .container {
   letter-spacing: 0.04em;
   color: var(--ink);
   margin: 0;
-  /* Lining figures: the default old-style numerals in Cormorant Garamond drop
-     below the baseline and make a phone number hard to read at a glance. */
   font-feature-settings: "lnum" 1;
 }
 
@@ -974,7 +901,6 @@ section > .container {
   max-width: 1300px !important;
 }
 
-/* No card wrapper — the form sits directly in the section */
 #rsvp .row {
   align-items: stretch;
 }
@@ -992,7 +918,6 @@ section > .container {
   height: 100%;
 }
 
-/* Kill the base form's own padding — the inner-column controls spacing */
 .contact-form-two,
 .contact-form-two.style-two {
   padding: 0 !important;
@@ -1001,24 +926,17 @@ section > .container {
   border-radius: 0;
 }
 
-/* Even out Bootstrap row gutters inside the form */
 .contact-form-two form > .row {
   margin-left: -8px;
   margin-right: -8px;
 }
 
-/* The guest columns are injected inside [data-guest-fields], which is
-   display:contents — so they *lay out* as row children but are not row
-   children in the DOM, and the `>` combinator above skips them. Without this
-   they render with no side padding and Guest 1 / Guest 2 touch, while every
-   other pair in the form has a 16px gutter. */
 .contact-form-two form > .row > [class*="col-"],
 .contact-form-two form > .row > [data-guest-fields] > [class*="col-"] {
   padding-left: 8px;
   padding-right: 8px;
 }
 
-/* Centered header with flourish */
 .form-head {
   text-align: center;
   margin-bottom: clamp(26px, 3vw, 38px);
@@ -1042,7 +960,6 @@ section > .container {
   width: 190px;
 }
 
-/* Radios as elegant selectable options */
 .custom-radio-box-two {
   display: flex;
   align-items: center;
@@ -1085,7 +1002,6 @@ section > .container {
   border: none !important;
 }
 
-/* Elegant boxed inputs with real padding */
 .contact-form-two .form-group {
   margin-bottom: 16px;
 }
@@ -1116,9 +1032,6 @@ section > .container {
     box-shadow 0.2s ease;
 }
 
-/* Keep the whole RSVP card within the viewport.
-   min-width:0 lets the flex columns shrink below their content's intrinsic
-   width (the classic flexbox overflow fix). */
 #rsvp .row,
 #rsvp .form-column,
 #rsvp .content-column,
@@ -1170,7 +1083,6 @@ section > .container {
   color: var(--ink);
 }
 
-/* Right column — details + map */
 #rsvp .content-column {
   background: #faf8f4;
   border-left: 1px solid var(--line);
@@ -1261,14 +1173,9 @@ section > .container {
     padding: 64px 26px 52px;
   }
 
-  /* Stacked, the video leads and the names read underneath it — source order
-     keeps the invitation copy first for screen readers and no-CSS fallback. */
   .hero-photo {
     flex: none;
     width: 100%;
-    /* The panel takes the video's own 1080x1936 shape, so object-fit: cover has
-       nothing left to crop and the whole frame is visible. Capped at 88vh so a
-       tablet-width screen doesn't get a panel taller than the window. */
     aspect-ratio: 1080 / 1936;
     height: auto;
     max-height: 88vh;
@@ -1297,6 +1204,74 @@ section > .container {
 }
 
 @media (max-width: 767px) {
+  .hero-photo {
+    aspect-ratio: auto;
+    height: 100vh;
+    height: 100svh;
+    max-height: none;
+  }
+
+  .hero-photo::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 38%;
+    z-index: 2;
+    background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.52) 100%);
+    pointer-events: none;
+  }
+
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    position: absolute;
+    left: 50%;
+    bottom: calc(clamp(10px, 2vh, 18px) + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 3;
+    color: #fff;
+    pointer-events: none;
+  }
+
+  .hero-scroll-text {
+    font-family: var(--title-font);
+    text-transform: uppercase;
+    letter-spacing: 0.26em;
+    text-indent: 0.26em;
+    font-size: 11px;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.65);
+  }
+
+  .hero-scroll-arrow {
+    width: 20px;
+    height: 25px;
+    display: block;
+    filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.65));
+    animation: scrollCue 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollCue {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.7;
+    }
+
+    50% {
+      transform: translateY(7px);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll-arrow {
+      animation: none;
+      opacity: 0.9;
+    }
+  }
+
   .hero-invite {
     padding: 34px 16px 30px;
   }

@@ -479,11 +479,6 @@ body {
 
 .list {
   display: grid;
-  /* min() so the track can fall below its ideal 320px on a narrow screen.
-     A bare minmax(320px, 1fr) is a floor, not a preference: once the content
-     area drops under 320px the card keeps its 320px and the whole page scrolls
-     sideways. A 320pt phone — or any phone in iOS's zoomed display mode —
-     lands exactly there. */
   grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 16px;
 }
@@ -494,8 +489,6 @@ body {
   padding: 26px 24px 24px;
   background: var(--paper);
   overflow: hidden;
-  /* `backwards`, not `both`: a forwards-filling animation keeps owning the
-     transform after it ends, which would swallow the :hover lift below. */
   animation: card-in 0.55s var(--ease) backwards;
   animation-delay: calc(var(--i, 0) * 45ms);
   transition:
@@ -510,7 +503,6 @@ body {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
 }
 
-/* A left rule marks the reply: solid for attending, hollow for declined. */
 .card::before {
   content: "";
   position: absolute;
@@ -573,8 +565,6 @@ body {
   line-height: 1.2;
   color: var(--ink);
   margin: 0;
-  /* Guest-typed and unbounded — one long unbroken string would otherwise
-     stretch the card past its grid track. */
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -710,7 +700,6 @@ body {
   color: var(--muted);
 }
 
-/* Search hits are underscored rather than colour-filled, to stay monochrome. */
 mark {
   background: var(--ink);
   color: var(--paper);

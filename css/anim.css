@@ -11,9 +11,6 @@
    switch in the prefers-reduced-motion block at the foot of the file.
    ══════════════════════════════════════════════════════════════ */
 
-/* Motion tokens. cubic-bezier(0.33, 1, 0.68, 1) is an ease-out cubic: it
-   leaves and arrives more gently than the quint it replaces, which started
-   fast and braked hard. Slower and softer everywhere, from one place. */
 :root {
   --ease-reveal: cubic-bezier(0.33, 1, 0.68, 1);
   --ease-curtain: cubic-bezier(0.5, 0, 0.18, 1);
@@ -53,9 +50,6 @@
 
 /* ── Headings rise a word at a time ───────────────────────── */
 
-/* js/anim.js wraps each word of the plain-text headings in .word. No overflow
-   clipping here on purpose: Pinyon Script has deep descenders and a mask would
-   slice them. */
 [data-words] .word {
   display: inline-block;
   opacity: 0;
@@ -90,8 +84,6 @@
 
 /* ── Photos uncover from the bottom edge ──────────────────── */
 
-/* A curtain in the section's own white, wiped away upward. Scaling a solid
-   colour is a compositor-only operation — no repaint of the photo beneath. */
 .zz-photo::after {
   content: "";
   position: absolute;
@@ -111,9 +103,6 @@
 
 /* ── The flourish draws itself in ─────────────────────────── */
 
-/* stroke-dasharray is an inherited SVG property, so setting it on the <svg>
-   reaches the paths inside the referenced <symbol>. The solid shapes in the
-   ornament use stroke="none" and are left untouched. */
 .flourish-divider .flourish {
   stroke-dasharray: 260;
   stroke-dashoffset: 260;
@@ -131,8 +120,6 @@
 
 /* ── Hero ─────────────────────────────────────────────────── */
 
-/* A very slow push-in, so a still photo is never quite static. The video
-   brings its own motion and is deliberately left out of this. */
 .hero-photo-frame img {
   animation: hero-drift 34s ease-in-out infinite alternate;
 }
@@ -146,7 +133,6 @@
   }
 }
 
-/* The names settle in behind the flourish. */
 body.revealed .couple-names,
 body.no-envelope .couple-names {
   animation: name-settle 2.1s var(--ease-reveal) both;
@@ -202,9 +188,6 @@ body.no-envelope .invite-intro {
 
 /* ── Zigzag photos: gentle parallax drift ─────────────────── */
 
-/* The drift rides on the independent `translate` property rather than
-   `transform`, so it composes with the reveal transform instead of replacing
-   it — the photos would otherwise fade in without ever sliding up. */
 .zz-photo {
   translate: 0 var(--drift, 0px);
   transition: box-shadow 0.5s ease;
@@ -246,9 +229,6 @@ body.no-envelope .invite-intro {
 
 /* ── Card icons draw themselves on ────────────────────────── */
 
-/* Same inheritance trick as the flourish: stroke-dasharray set on the <svg>
-   reaches the shapes inside the referenced <symbol>. 150 comfortably exceeds
-   the longest path in any of the three, so each finishes within the run. */
 .zz-icon {
   stroke-dasharray: 150;
   stroke-dashoffset: 150;
@@ -260,16 +240,6 @@ body.no-envelope .invite-intro {
 
 /* ── Countdown ────────────────────────────────────────────── */
 
-/* The animation belongs on .time-countdown, which survives, and NOT on the
-   .counter-column children. The plugin rewrites this element's innerHTML every
-   100ms, so anything animated per-column is rebuilt mid-flight and restarts
-   forever — with `both` fill that pins the digits at their opacity:0 first
-   frame and the countdown reads as broken. It only looked fine while the
-   target date was in the past, because a finished countdown stops ticking and
-   lets the animation run to completion. */
-/* Gated on [data-reveal], which only exists once js/anim.js has run. If the
-   engine never starts, the digits are simply visible rather than hidden by a
-   fade that nothing will ever trigger. */
 .zz-count[data-reveal] .time-countdown {
   opacity: 0;
 }
@@ -327,7 +297,6 @@ body.no-envelope .invite-intro {
   position: relative;
 }
 
-/* A hairline that grows from the centre as the field takes focus. */
 .contact-form-two .input-outer::after {
   content: "";
   position: absolute;
@@ -367,7 +336,6 @@ body.no-envelope .invite-intro {
   transform: translateY(-50%) scale(1.15);
 }
 
-/* Guest inputs cascade in as the invitation link is read. */
 .guest-field {
   animation: guest-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--guest-index, 1) * 90ms);

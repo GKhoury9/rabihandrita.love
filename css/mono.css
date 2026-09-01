@@ -6,7 +6,6 @@
    ══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Accents (flourishes, labels, dividers) — neutral greys */
   --theme-color1: #b5b5b5;
   --theme-color2: #ffffff;
   --theme-color3: #ffffff;
@@ -28,7 +27,6 @@
   --text-color: #3d3d3d;
   --headings-color: #000000;
 
-  /* Neutral replacements for the ivory tones used throughout custom.css */
   --paper: #ffffff;
   --paper-soft: #f5f5f5;
   --paper-edge: #ededed;
@@ -36,8 +34,6 @@
   --muted: #8a8a8a;
 }
 
-/* [hidden] must win over the layout rules in custom.css (.zz-map is
-   display:inline-block, which would otherwise defeat the attribute). */
 [hidden] {
   display: none !important;
 }
@@ -93,7 +89,6 @@ body,
   color: var(--muted);
 }
 
-/* The original inline accent on the RSVP deadline. */
 .accent-date {
   color: var(--ink);
   font-weight: 600;
@@ -117,8 +112,6 @@ body,
   filter: grayscale(0) contrast(1);
 }
 
-/* Anyone who prefers reduced motion still gets the greyscale treatment,
-   just without the transition. */
 @media (prefers-reduced-motion: reduce) {
   .zz-photo img,
   .hero-photo-frame img,
@@ -129,8 +122,6 @@ body,
 
 /* ── Countdown ────────────────────────────────────────────── */
 
-/* custom.css pins the digits to #171717 with !important, so the override has
-   to match its specificity and repeat the flag. */
 .zz-count .counter-column .count {
   color: var(--ink) !important;
 }
@@ -141,8 +132,6 @@ body,
 
 /* ── Form plumbing ────────────────────────────────────────── */
 
-/* The honeypot Netlify uses to catch bots — never shown to a person, but kept
-   in the accessibility tree's tab order out of the way rather than removed. */
 .hp-field {
   position: absolute;
   width: 1px;
@@ -155,8 +144,6 @@ body,
   border: 0;
 }
 
-/* The guest-name inputs are injected into this wrapper; display:contents lets
-   the generated bootstrap columns land directly in the surrounding row. */
 [data-guest-fields] {
   display: contents;
 }
