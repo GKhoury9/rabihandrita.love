@@ -9,8 +9,10 @@
     <link href="css/custom.css" rel="stylesheet" />
     <link href="css/mono.css" rel="stylesheet" />
     <link href="css/anim.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="images/logo.png" type="image/png" />
-    <link rel="icon" href="images/logo.png" type="image/png" />
+    <!-- A 64px cut of the seal. The full logo is 165KB, and a tab icon that
+         heavy competes with the page it belongs to. -->
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+    <link rel="icon" href="images/favicon.png" type="image/png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,7 +167,7 @@
               aria-label="Open invitation"
             >
               <span class="wax-seal-inner">
-                <img class="wax-logo" src="./images/logo.png" alt="" />
+                <img class="wax-logo" src="./images/logo.webp" alt="" />
               </span>
             </button>
           </div>
@@ -526,8 +528,10 @@
 
     <!-- Background music. js/invite.js starts it from openEnvelope(), so it
          begins on the press of the wax seal and never before — which is also
-         the gesture browsers require before they will allow any sound. -->
-    <audio id="background-music" loop preload="auto" style="display: none">
+         the gesture browsers require before they will allow any sound.
+         preload="none" keeps its 2MB off the wire while the page itself is
+         still arriving; invite.js buffers it once everything else is done. -->
+    <audio id="background-music" loop preload="none" style="display: none">
       <source src="./music.mp3" type="audio/mpeg" />
     </audio>
 

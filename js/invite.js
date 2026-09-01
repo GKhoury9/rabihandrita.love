@@ -192,6 +192,20 @@
     if (attempt && typeof attempt.catch === "function") attempt.catch(function () {});
   }
 
+  // The track is 2MB and nothing needs it until the seal is pressed, so the
+  // markup carries preload="none" and it stays off the wire while the page,
+  // the seal and the hero video are still arriving. Once they are all in,
+  // buffer it quietly, so the press starts music rather than a download.
+  if (audio) {
+    window.addEventListener("load", function () {
+      // Unless the visitor was quicker than the page and it is already
+      // playing — load() would abort the very playback it is preparing for.
+      if (!audio.paused) return;
+      audio.preload = "auto";
+      audio.load();
+    });
+  }
+
   /* ── Envelope opening screen ──────────────────────────────── */
 
   window.openEnvelope = function openEnvelope() {
