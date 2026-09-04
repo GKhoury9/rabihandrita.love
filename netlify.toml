@@ -64,6 +64,6 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/music.mp3"
+  for = "/music2.mp3"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
