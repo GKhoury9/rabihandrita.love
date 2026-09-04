@@ -206,6 +206,23 @@
     });
   }
 
+  /* ── Hero video ───────────────────────────────────────────── */
+
+  // Played slower than it was shot, so the loop drifts rather than moves.
+  // Set on the element rather than the encode: the file is untouched, and the
+  // number is the only thing to change. 1 is the speed it was filmed at.
+  var HERO_SPEED = 0.6;
+
+  var heroVideo = document.querySelector(".hero-photo-frame video");
+  if (heroVideo) {
+    heroVideo.playbackRate = HERO_SPEED;
+    // Browsers reset the rate when the element loads new media, so set it
+    // again on the way in rather than trusting the one assignment above.
+    heroVideo.addEventListener("loadedmetadata", function () {
+      heroVideo.playbackRate = HERO_SPEED;
+    });
+  }
+
   /* ── Envelope opening screen ──────────────────────────────── */
 
   window.openEnvelope = function openEnvelope() {
@@ -220,13 +237,14 @@
     // The hero video has been looping behind the envelope. Restart it so it
     // opens on its first frame — and because this runs on a real tap, it also
     // covers the case where autoplay was refused on load.
-    var hero = document.querySelector(".hero-photo-frame video");
+    var hero = heroVideo;
     if (hero) {
       try {
         hero.currentTime = 0;
       } catch (error) {
         /* not seekable yet — it will simply keep playing from where it is */
       }
+      hero.playbackRate = HERO_SPEED;
       var playing = hero.play();
       if (playing && typeof playing.catch === "function") playing.catch(function () {});
     }
