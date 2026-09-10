@@ -81,8 +81,15 @@ async function fetchAllSubmissions(formId, token) {
   return all;
 }
 
+/** A guest box left standing in for nobody. The extra boxes are required, so
+ *  someone invited for two who is coming alone fills the second with a dash to
+ *  get past validation — anything carrying neither a letter nor a digit is a
+ *  placeholder, not a person. */
+const isPlaceholder = (value) => !/[\p{L}\p{N}]/u.test(value);
+
 function normalise(submission) {
   const data = submission.data ?? {};
+  const name = String(data.name ?? "").trim();
 
   // Prefer the joined line the form sends; fall back to the numbered fields so
   // submissions made before that field existed still show their guests.
@@ -98,17 +105,32 @@ function normalise(submission) {
     }
   }
 
+  const named = guestNames.filter((n) => !isPlaceholder(n));
   const declared = Number.parseInt(data.guests, 10);
-  const guests = Number.isFinite(declared)
-    ? declared
-    : guestNames.length || 0;
+
+  // How many are actually coming is how many were actually named. The count on
+  // the invitation is only what was offered — a party of two that names one
+  // person is one person at a table. Where nobody was named at all the offer is
+  // all there is to go on, and a party of one names itself: that form asks for
+  // no guest boxes, because the full name above is the guest.
+  let guests;
+  if (named.length) {
+    guests = named.length;
+    guestNames = named;
+  } else if (Number.isFinite(declared) && declared > 0) {
+    guests = declared;
+    guestNames = declared === 1 && name ? [name] : [];
+  } else {
+    guests = 0;
+    guestNames = [];
+  }
 
   return {
     id: submission.id,
     created_at: submission.created_at,
     rsvp: String(data.rsvp ?? "").trim(),
     attending: String(data.rsvp ?? "").toLowerCase().startsWith("accept"),
-    name: String(data.name ?? "").trim(),
+    name,
     phone: String(data.phone ?? "").trim(),
     guests,
     message: String(data.message ?? "").trim(),

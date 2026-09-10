@@ -81,7 +81,10 @@
     if (side) side.value = isFromRita ? "rita" : isFromRabih ? "rabih" : "";
 
     // One named input per expected guest, matching the PHP loop's column widths.
-    if (guestsValid && fieldHost) {
+    // Not for a party of one: the Full Name field above already asks the only
+    // question a single guest has to answer, and a "Guest 1" box under it just
+    // asks them to type their name twice.
+    if (guestsValid && guests > 1 && fieldHost) {
       // col-12 is not decoration. Bootstrap gives the form's other fields their
       // full mobile width through `.row > *`, but these are injected inside
       // [data-guest-fields] — display:contents, so they lay out as row children
